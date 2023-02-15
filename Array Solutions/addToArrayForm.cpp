@@ -2,40 +2,43 @@
 using namespace std;
 
 
-void addToArrayForm(int num[], int k, int n) {
-    int sum = 0;
+class Solution {
+public:
+    vector<int> addToArrayForm(vector<int>& nums, int k) {
+        string sum;
 
-    vector<int> res; 
+        vector<int> res;
 
-    for(int i=0; i<n; i++){
-        sum = sum*10 + num[i];   
+        for(int i=0; i<nums.size(); i++){
+            sum += to_string(nums[i]);
+        }
+
+        int carry = k;
+        for(int i=sum.size()-1; i>=0 || carry>0; i--){
+            if(i>=0) carry += sum[i]-'0';
+            res.push_back(carry%10);
+            carry /= 10;
+        }
+
+        reverse(res.begin(),res.end());
+
+        return res;
     }
-    //cout<<sum;
+};
 
-    int total_sum = sum + k;
-    //cout << total_sum;
-    
-    while(total_sum > 0){
-        int b = total_sum % 10;
-        res.push_back(b);
-        total_sum /= 10;
-    }
+int main() {
+    Solution s;
 
-    for (int i=res.size()-1; i>=0; i--){
-        cout<<res[i]<<" ";
+    // Example usage
+    vector<int> nums = {1,2,0,0};
+    int k = 34;
+    vector<int> result = s.addToArrayForm(nums, k);
+
+    // Output the result
+    for(int i=0; i<result.size(); i++){
+        cout << result[i] << " ";
     }
     cout << endl;
-}
-
-int main(){
-
-    int arr[] = {1,2,0,0};
-    int k = 34;
-    int n = sizeof(arr)/sizeof(arr[0]); 
-
-    addToArrayForm (arr, k, n);
-
-    
 
     return 0;
 }
